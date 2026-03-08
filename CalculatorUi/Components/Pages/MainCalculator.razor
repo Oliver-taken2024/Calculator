@@ -1,0 +1,59 @@
+﻿@page "/MainCalculator"
+@rendermode InteractiveServer
+<h3>MainCalculator</h3>
+
+<div>
+
+   <div >@Total</div>
+
+    <div class="btn btn-primary" @onclick='() => AddSymbol("/")'>/</div>
+
+    <div>
+        <button class="btn btn-primary" @onclick="() => AddNum(7)">7</button>
+        <button class="btn btn-primary" @onclick="() => AddNum(8)">8</button>
+        <button class="btn btn-primary" @onclick="() => AddNum(9)">9</button>
+        <div class="btn btn-primary" @onclick='() => AddSymbol("*")'>*</div>
+    </div>
+
+    <div>
+        <button class="btn btn-primary" @onclick="() => AddNum(4)">4</button>
+        <button class="btn btn-primary" @onclick="() => AddNum(5)">5</button>
+        <button class="btn btn-primary" @onclick="() => AddNum(6)">6</button>
+        <div class="btn btn-primary" @onclick='() => AddSymbol("-")'>-</div>
+    </div>
+
+    <div>
+        <button class="btn btn-primary" @onclick="() => AddNum(1)">1</button>
+        <button class="btn btn-primary" @onclick="() => AddNum(2)">2</button>
+        <button class="btn btn-primary" @onclick="() => AddNum(3)">3</button>
+        <div class="btn btn-primary" @onclick='() => AddSymbol("+")'>+</div>
+    </div>
+
+    <div>
+        <button class="btn btn-primary">+/-</button>
+        <button class="btn btn-primary" @onclick="() => AddNum(0)">0</button>
+        <button class="btn btn-primary" @onclick='() => AddSymbol(",")'>,</button>
+        <div class="btn btn-primary">=</div>
+    </div>
+</div>
+
+@code {
+
+
+    public string Total { get; set; } = "";
+
+    private void AddNum(int num)
+    {
+        Total += num;
+    }
+
+    private void AddSymbol (string sym)
+    {
+        Total += sym;
+    }
+
+    private void Result()
+    {
+        
+    }
+}
