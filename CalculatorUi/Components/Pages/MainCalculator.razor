@@ -1,46 +1,57 @@
 ﻿@page "/MainCalculator"
+@using System.Data
+@using System.Linq.Expressions
 @rendermode InteractiveServer
 <h3>MainCalculator</h3>
 
 <div>
 
    <div >@Total</div>
-
-    <div class="btn btn-primary" @onclick='() => AddSymbol("/")'>/</div>
+   <div>
+    <button class="btn btn-primary" @onclick='() => AddSymbol("/")'>/</button>
+    <button class="btn btn-primary" @onclick="Delete">Delete</button>
+    <button class="btn btn-primary" @onclick="Clear">Clear</button>
+    </div>
 
     <div>
         <button class="btn btn-primary" @onclick="() => AddNum(7)">7</button>
         <button class="btn btn-primary" @onclick="() => AddNum(8)">8</button>
         <button class="btn btn-primary" @onclick="() => AddNum(9)">9</button>
-        <div class="btn btn-primary" @onclick='() => AddSymbol("*")'>*</div>
+        <button class="btn btn-primary" @onclick='() => AddSymbol("*")'>*</button>
     </div>
 
     <div>
         <button class="btn btn-primary" @onclick="() => AddNum(4)">4</button>
         <button class="btn btn-primary" @onclick="() => AddNum(5)">5</button>
         <button class="btn btn-primary" @onclick="() => AddNum(6)">6</button>
-        <div class="btn btn-primary" @onclick='() => AddSymbol("-")'>-</div>
+        <button class="btn btn-primary" @onclick='() => AddSymbol("-")'>-</button>
     </div>
 
     <div>
         <button class="btn btn-primary" @onclick="() => AddNum(1)">1</button>
         <button class="btn btn-primary" @onclick="() => AddNum(2)">2</button>
         <button class="btn btn-primary" @onclick="() => AddNum(3)">3</button>
-        <div class="btn btn-primary" @onclick='() => AddSymbol("+")'>+</div>
+        <button class="btn btn-primary" @onclick='() => AddSymbol("+")'>+</button>
     </div>
 
     <div>
-        <button class="btn btn-primary">+/-</button>
         <button class="btn btn-primary" @onclick="() => AddNum(0)">0</button>
         <button class="btn btn-primary" @onclick='() => AddSymbol(",")'>,</button>
-        <div class="btn btn-primary">=</div>
+        <button class="btn btn-primary" @onclick="Calculate">=</button>
     </div>
 </div>
+
+@if (ResultMessage is not null)
+{
+    <p><strong>Result:</strong> @ResultMessage</p>
+}
 
 @code {
 
 
     public string Total { get; set; } = "";
+
+    public string ResultMessage { get; set; }
 
     private void AddNum(int num)
     {
@@ -52,8 +63,54 @@
         Total += sym;
     }
 
-    private void Result()
+    private void Delete()
     {
-        
+        //removes the last letter in a string
+        if(!string.IsNullOrEmpty(Total))
+        {
+            Total = Total.Substring(0, Total.Length - 1);
+        }
     }
+
+    private void Clear()
+    {
+        Total = string.Empty;
+        ResultMessage = string.Empty;
+    }
+
+    private void Calculate()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(Total))
+            {
+                ResultMessage = "Please enter a valid expression.";
+                return;
+            }
+
+            // Use DataTable.Compute for basic arithmetic
+            var table = new DataTable();
+            object result = table.Compute(Total, string.Empty);
+
+            ResultMessage = result.ToString();
+        }
+        catch (SyntaxErrorException)
+        {
+            ResultMessage = "Invalid expression syntax.";
+        }
+        catch (EvaluateException)
+        {
+            ResultMessage = "Error evaluating expression.";
+        }
+        catch (Exception ex)
+        {
+            ResultMessage = $"Unexpected error: {ex.Message}";
+        }
+    }
+        
+        
+            
+
+
+    
 }
