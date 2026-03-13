@@ -1,0 +1,10 @@
+[
+  {
+    "expression": "8-9*6",
+    "Result": "-46"
+  },
+  {
+    "expression": "5-3",
+    "Result": "2"
+  }
+]

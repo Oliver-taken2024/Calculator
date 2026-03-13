@@ -1,7 +1,26 @@
 ﻿@page "/History"
+@using CalculatorBackend
+@using Newtonsoft.Json
+@rendermode InteractiveServer
 
-<h3>History</h3>
+<button @onclick="Load">Load JSON</button>
+
+<pre>@jsonText</pre>
 
 @code {
+    string jsonText;
 
+    void Load()
+    {
+        jsonText = System.IO.File.ReadAllText("calc.json");
+    }
+
+    public List<CalculatorData> LoadHistory(string path)
+    {
+        if (!File.Exists(path))
+            return new List<CalculatorData>();
+
+        string json = File.ReadAllText(path);
+        return JsonConvert.DeserializeObject<List<CalculatorData>>(json);
+    }
 }

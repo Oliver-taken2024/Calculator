@@ -1,6 +1,8 @@
+using CalculatorBackend;
 using CalculatorUi.Components;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<CalculatorHistory>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
