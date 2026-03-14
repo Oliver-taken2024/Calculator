@@ -10,9 +10,10 @@
 
    <div >@Total</div>
    <div>
-    <button class="btn btn-primary" @onclick='() => AddSymbol("/")'>/</button>
+   
     <button class="btn btn-primary" @onclick="Delete">Delete</button>
     <button class="btn btn-primary" @onclick="Clear">Clear</button>
+    <button class="btn btn-primary" @onclick='() => AddSymbol("/")'>/</button>
     </div>
 
     <div>
@@ -37,8 +38,8 @@
     </div>
 
     <div>
-        <button class="btn btn-primary" @onclick="() => AddNum(0)">0</button>
         <button class="btn btn-primary" @onclick='() => AddSymbol(".")'>.</button>
+        <button class="btn btn-primary" @onclick="() => AddNum(0)">0</button>
         <button class="btn btn-primary" @onclick="Calculate">=</button>
     </div>
 
@@ -66,7 +67,21 @@
 
     private void AddSymbol (string sym)
     {
-        Total += sym;
+        if (string.IsNullOrEmpty(Total))
+            return; // ← stoppar operator först
+
+        char lastChar = Total[^1]; // sista tecknet
+
+        if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
+        {
+            // ersätt sista operatorn
+            Total = Total.Substring(0, Total.Length - 1) + sym;
+        }
+        else
+        {
+            // lägg till operatorn
+            Total += sym;
+        }
     }
 
     private void Delete()

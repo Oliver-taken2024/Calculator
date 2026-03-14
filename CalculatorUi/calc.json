@@ -6,5 +6,9 @@
   {
     "expression": "5-3",
     "Result": "2"
+  },
+  {
+    "expression": "9-3",
+    "Result": "6"
   }
 ]
